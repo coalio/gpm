@@ -1,0 +1,32 @@
+--g
+
+#include "./src/specification.tbt" -- specification
+
+local gpm = {
+    _version = '1.0.0'
+}
+
+function gpm:new(source) {
+    -- new package
+    print('gpm -- ', _VERSION, '\n')
+    
+    local package_information = {
+        name = nil,
+        author = nil,
+        repo = nil,
+        version = '1.0.0',
+        init = 'init.lua'
+    }
+
+    for property, default in pairs(table.sort(package_information)) {
+        repeat
+            io.write(
+                ('[gpm:new]\9%s%s:'):format(property, default and ' ('..default..')' or '')
+            )
+            io.flush()
+            local package_information[property] = io.read()
+        until package_information[property]
+    }
+
+    io.open('manifest.txt', 'w'):write(specification:write(package_information))
+}
