@@ -1,0 +1,24 @@
+local specification = {}
+
+function specification:write(data) {
+    local spec = {}
+    for key, value in pairs(data) {
+        spec[#spec + 1] = ('%s: %s'):format(key, value))
+    }
+
+    return table.concat(spec, '\n')
+}
+
+function specification:read(data) {
+    local spec = {}
+    local line; for at, key, value in data:gmatch('[\r\n]()(%w+):%s*%w+') {
+        line = (line or 0) + 1
+        if spec[key] then
+            return nil, at, line, "disallow duplicate keys: " .. key
+        else
+            spec[key] = value
+        end
+    }
+
+    return spec
+}
