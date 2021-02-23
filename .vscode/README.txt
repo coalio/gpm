@@ -1,0 +1,1 @@
+The workspace settings used for this project (VS Code) are available here.
